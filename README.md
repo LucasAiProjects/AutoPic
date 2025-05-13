@@ -9,6 +9,7 @@ Node.js后端服务，集成together.ai的图像生成API，提供模块化设�
 - 在Render上自动部署
 - 日志记录和错误处理
 - 环境变量配置
+- 支持多图片返回
 
 ## 项目结构
 
@@ -83,9 +84,18 @@ POST /api/images/generate
 ```json
 {
   "success": true,
-  "imageUrl": "https://together-image-output.s3.amazonaws.com/..."
+  "data": [
+    {
+      "url": "https://together-image-output.s3.amazonaws.com/image1.png"
+    },
+    {
+      "url": "https://together-image-output.s3.amazonaws.com/image2.png"
+    }
+  ]
 }
 ```
+
+注意：返回的图片数量由Together.ai API决定，API会自动处理并返回所有生成的图片URL。
 
 ## 许可
 

@@ -18,7 +18,7 @@ export const generateImage = async (req, res, next) => {
     logger.info('接收到图像生成请求');
     
     // 调用服务生成图像
-    const imageUrl = await imageService.generateImage({
+    const imageUrls = await imageService.generateImage({
       prompt,
       model,
       width,
@@ -26,10 +26,10 @@ export const generateImage = async (req, res, next) => {
       steps
     });
 
-    // 返回结果
+    // 返回结果 - 数组格式
     return res.status(StatusCodes.OK).json({
       success: true,
-      imageUrl
+      data: imageUrls
     });
   } catch (error) {
     next(error);

@@ -26,7 +26,7 @@ class ImageService {
    * @param {number} [params.width=1024] - 图像宽度
    * @param {number} [params.height=1024] - 图像高度
    * @param {number} [params.steps=30] - 生成步数
-   * @returns {Promise<string>} 生成的图像URL
+   * @returns {Promise<Array>} 生成的图像URL对象数组
    */
   async generateImage(params) {
     try {
@@ -47,15 +47,36 @@ class ImageService {
         // 根据together.ai的API需求添加其他参数
       };
 
-      const response = await this.apiClient.post('/inference', requestData);
+      const response = await this.apiClient.post('/v1/images/generations', requestData);
       
-      // 根据together.ai实际API响应格式调整
-      if (!response.data.output || !response.data.output.image_url) {
+      // 处理API响应
+      if (!response.data.output) {
         throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应');
       }
 
-      logger.info('图像生成成功');
-      return response.data.output.image_url;
+      const results = [];
+      
+      // 处理可能的多图片返回
+      if (Array.isArray(response.data.output)) {
+        // 如果API返回图片数组
+        response.data.output.forEach(item => {
+          if (item.image_url) {
+            results.push({ url: item.image_url });
+          }
+        });
+      } else if (response.data.output.image_url) {
+        // 单个图片情况
+        results.push({ url: response.data.output.image_url });
+      } else {
+        throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应格式');
+      }
+      
+      if (results.length === 0) {
+        throw new ApiError(StatusCodes.BAD_GATEWAY, '未能获取任何图片URL');
+      }
+
+      logger.info(`成功获取${results.length}张图像`);
+      return results;
     } catch (error) {
       logger.error(`图像生成失败: ${error.message}`);
       
