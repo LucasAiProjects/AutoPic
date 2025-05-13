@@ -73,9 +73,10 @@ POST /api/images/generate
 {
   "prompt": "描述你想生成的图片",
   "model": "stabilityai/stable-diffusion-xl-base-1.0", // 可选
-  "width": 1024, // 可选
-  "height": 1024, // 可选
-  "steps": 30 // 可选
+  "width": 512, // 可选
+  "height": 512, // 可选
+  "steps": 4, // 可选
+  "n": 2 // 可选，指定需要生成的图片数量，默认为1
 }
 ```
 
@@ -95,7 +96,7 @@ POST /api/images/generate
 }
 ```
 
-注意：返回的图片数量由Together.ai API决定，API会自动处理并返回所有生成的图片URL。
+注意：使用n参数可以控制Together.ai API生成并返回的图片数量。
 
 ## 许可
 

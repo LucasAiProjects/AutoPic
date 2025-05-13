@@ -8,7 +8,7 @@ import { ApiError } from '../utils/errorHandler.js';
  */
 export const generateImage = async (req, res, next) => {
   try {
-    const { prompt, model, width, height, steps } = req.body;
+    const { prompt, model, width, height, steps, n } = req.body;
 
     // 参数验证
     if (!prompt) {
@@ -23,7 +23,8 @@ export const generateImage = async (req, res, next) => {
       model,
       width,
       height,
-      steps
+      steps,
+      n
     });
 
     // 返回结果 - 数组格式

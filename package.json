@@ -1,5 +1,5 @@
 {
-  "name": "together-ai-image-api",
+  "name": "auto-pic",
   "version": "1.0.0",
   "description": "Node.js backend with together.ai image generation API",
   "main": "src/server.js",

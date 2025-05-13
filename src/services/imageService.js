@@ -23,20 +23,21 @@ class ImageService {
    * @param {Object} params - 生成参数
    * @param {string} params.prompt - 图像提示描述
    * @param {string} [params.model="stabilityai/stable-diffusion-xl-base-1.0"] - 模型名称
-   * @param {number} [params.width=1024] - 图像宽度
-   * @param {number} [params.height=1024] - 图像高度
-   * @param {number} [params.steps=30] - 生成步数
+   * @param {number} [params.width=512] - 图像宽度
+   * @param {number} [params.height=512] - 图像高度
+   * @param {number} [params.steps=4] - 生成步数
+   * @param {number} [params.n=1] - 生成图片数量
    * @returns {Promise<Array>} 生成的图像URL对象数组
    */
   async generateImage(params) {
     try {
-      const { prompt, model = "stabilityai/stable-diffusion-xl-base-1.0", width = 1024, height = 1024, steps = 30 } = params;
+      const { prompt, model = "stabilityai/stable-diffusion-xl-base-1.0", width = 512, height = 512, steps = 4, n = 1 } = params;
       
       if (!prompt) {
         throw new ApiError(StatusCodes.BAD_REQUEST, '缺少必要的图像描述');
       }
 
-      logger.info(`开始生成图像，提示: ${prompt.substring(0, 50)}...`);
+      logger.info(`开始生成图像，提示: ${prompt.substring(0, 50)}...，数量: ${n}`);
       
       const requestData = {
         model,
@@ -44,6 +45,7 @@ class ImageService {
         width,
         height,
         steps,
+        n: parseInt(n, 10),
         // 根据together.ai的API需求添加其他参数
       };
 
