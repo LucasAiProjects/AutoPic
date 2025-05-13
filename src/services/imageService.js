@@ -49,44 +49,25 @@ class ImageService {
         // 根据together.ai的API需求添加其他参数
       };
 
-      // 记录详细的请求信息，便于调试
-      const requestUrl = `${this.apiClient.defaults.baseURL}/v1/images/generations`;
-      logger.info('Together.ai API请求详情:');
-      logger.info(`请求URL: ${requestUrl}`);
-      logger.info(`请求参数: ${JSON.stringify(requestData, null, 2)}`);
-      logger.info(`HTTP头信息: ${JSON.stringify(this.apiClient.defaults.headers, null, 2)}`);
-
       const response = await this.apiClient.post('/v1/images/generations', requestData);
       
       // 记录API响应状态
       logger.info(`Together.ai API响应状态: ${response.status}`);
       
-      // 处理API响应
-      if (!response.data.output) {
+      // 处理API响应 - 新的响应结构
+      if (!response.data || !response.data.data || !Array.isArray(response.data.data)) {
         logger.error(`无效响应内容: ${JSON.stringify(response.data)}`);
-        throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应');
+        throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应格式');
       }
 
       const results = [];
       
-      // 处理可能的多图片返回
-      if (Array.isArray(response.data.output)) {
-        // 如果API返回图片数组
-        response.data.output.forEach(item => {
-          if (item.image_url) {
-            results.push({ url: item.image_url });
-          }
-        });
-      } else if (response.data.output.image_url) {
-        // 单个图片情况
-        results.push({ url: response.data.output.image_url });
-      } else {
-        throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应格式');
-      }
-      
-      if (results.length === 0) {
-        throw new ApiError(StatusCodes.BAD_GATEWAY, '未能获取任何图片URL');
-      }
+      // 处理新的响应格式
+      response.data.data.forEach(item => {
+        if (item.url) {
+          results.push({ url: item.url });
+        }
+      });
 
       logger.info(`成功获取${results.length}张图像`);
       return results;

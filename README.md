@@ -87,10 +87,10 @@ POST /api/images/generate
   "success": true,
   "data": [
     {
-      "url": "https://together-image-output.s3.amazonaws.com/image1.png"
+      "url": "https://api.together.ai/imgproxy/ZsOf07yx7rWteqmfk1bmUKq5ejX380x7yn3y8pGn"
     },
     {
-      "url": "https://together-image-output.s3.amazonaws.com/image2.png"
+      "url": "https://api.together.ai/imgproxy/9sFg45yx2qRtepmck7bmTSw2ejX380x7tm3p4cHn"
     }
   ]
 }
