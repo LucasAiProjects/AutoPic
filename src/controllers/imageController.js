@@ -12,7 +12,7 @@ export const generateImage = async (req, res, next) => {
 
     // 参数验证
     if (!prompt) {
-      throw new ApiError(StatusCodes.BAD_REQUEST, '必须提供图像描述(prompt)');
+      throw new ApiError(StatusCodes.BADREQUEST, '必须提供图像描述(prompt)');
     }
 
     logger.info('接收到图像生成请求');

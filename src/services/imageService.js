@@ -49,10 +49,21 @@ class ImageService {
         // 根据together.ai的API需求添加其他参数
       };
 
+      // 记录详细的请求信息，便于调试
+      const requestUrl = `${this.apiClient.defaults.baseURL}/v1/images/generations`;
+      logger.info('Together.ai API请求详情:');
+      logger.info(`请求URL: ${requestUrl}`);
+      logger.info(`请求参数: ${JSON.stringify(requestData, null, 2)}`);
+      logger.info(`HTTP头信息: ${JSON.stringify(this.apiClient.defaults.headers, null, 2)}`);
+
       const response = await this.apiClient.post('/v1/images/generations', requestData);
+      
+      // 记录API响应状态
+      logger.info(`Together.ai API响应状态: ${response.status}`);
       
       // 处理API响应
       if (!response.data.output) {
+        logger.error(`无效响应内容: ${JSON.stringify(response.data)}`);
         throw new ApiError(StatusCodes.BAD_GATEWAY, 'Together.ai返回无效响应');
       }
 
@@ -90,6 +101,7 @@ class ImageService {
       if (error.response) {
         const statusCode = error.response.status;
         const message = error.response.data?.error || '调用Together.ai API失败';
+        logger.error(`API错误详情: 状态码=${statusCode}, 响应体=${JSON.stringify(error.response.data)}`);
         throw new ApiError(statusCode, message);
       }
       
