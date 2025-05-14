@@ -52,12 +52,27 @@ npm run dev
 
 ## 部署
 
-项目已配置为在Render上自动部署。只需要：
+### 自动部署到Render
+
+项目已配置为使用GitHub Actions自动部署到Render。每当代码推送到main分支时，Actions会自动触发Render的部署。
+
+#### 配置GitHub Actions部署
 
 1. 在Render上创建新服务
-2. 连接到你的Git仓库
+2. 连接到你的GitHub仓库
 3. 添加环境变量`TOGETHER_API_KEY`
-4. 部署服务
+4. 在GitHub仓库设置中添加以下密钥（Settings > Secrets and variables > Actions）:
+
+   **方法一: 使用Render API（推荐）**
+   - `RENDER_SERVICE_ID`: 你的Render服务ID（从服务URL或设置中获取）
+   - `RENDER_API_KEY`: 从Render的账户设置页面生成的API密钥
+
+   **方法二: 使用Render Deploy Hook**
+   - `RENDER_DEPLOY_HOOK`: 从Render服务设置中获取的Deploy Hook URL
+
+5. 推送到main分支即可触发自动部署
+
+详细信息请参阅`.github/workflows/render-deploy.yml`文件。
 
 ## API接口
 
@@ -100,4 +115,4 @@ POST /api/images/generate
 
 ## 许可
 
-MIT 
+MIT
