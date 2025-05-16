@@ -50,7 +50,7 @@ const imageWorker = new Worker(
         prompt,
         width: width || 512,
         height: height || 512,
-        steps: steps || 10,
+        steps: steps || 4,
         n: parseInt(n || 1, 10)
       };
       
