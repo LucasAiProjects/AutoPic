@@ -46,11 +46,11 @@ const imageWorker = new Worker(
       
       // 构建请求数据
       const requestData = {
-        model: model || 'stabilityai/stable-diffusion-xl-base-1.0',
+        model: model || 'black-forest-labs/FLUX.1-schnell-Free',
         prompt,
         width: width || 512,
         height: height || 512,
-        steps: steps || 4,
+        steps: steps || 10,
         n: parseInt(n || 1, 10)
       };
       
