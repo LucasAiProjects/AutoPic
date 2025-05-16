@@ -10,7 +10,9 @@ export const QUEUE_NAMES = {
 
 // 创建Redis连接
 const createRedisConnection = () => {
-  const connection = new Redis(config.redis.url);
+  const connection = new Redis(config.redis.url, {
+    maxRetriesPerRequest: null,
+  });
 
   connection.on('error', (err) => {
     logger.error(`Redis连接错误: ${err.message}`);
