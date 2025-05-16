@@ -4,6 +4,7 @@ import logger from './utils/logger.js';
 import { registerMiddleware, registerErrorHandlers } from './middleware/index.js';
 import routes from './routes/index.js';
 import { StatusCodes } from 'http-status-codes';
+import './workers/imageWorker.js'; // 初始化图像生成工作进程
 
 // 创建Express应用
 const app = express();
@@ -31,6 +32,7 @@ registerErrorHandlers(app);
 const server = app.listen(config.port, () => {
   logger.info(`服务启动成功，运行在端口 ${config.port}`);
   logger.info(`环境: ${config.env}`);
+  logger.info(`已启动BullMQ任务队列和工作进程`);
 });
 
 // 处理未捕获的异常和拒绝
