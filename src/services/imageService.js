@@ -78,7 +78,7 @@ class ImageService {
           attempts: 3,
           timeout: 120000, // 2分钟超时
           removeOnComplete: true,
-          removeOnFail: false
+          removeOnFail: true
         }
       );
       
