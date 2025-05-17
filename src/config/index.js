@@ -25,7 +25,7 @@ const config = {
     imageMax: parseInt(process.env.IMAGE_RATE_LIMIT_MAX || '5', 10), // 图像生成接口限制
   },
   cache: {
-    imageExpiry: 60 * 60 * 24, // 24小时，单位秒
+    imageExpiry: 60 * 60 * 1, // 1小时，单位秒
   }
 };
 
