@@ -11,7 +11,7 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const config = {
   env: process.env.NODE_ENV || 'development',
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3000 || '0.0.0.0',
   together: {
     apiKey: process.env.TOGETHER_API_KEY,
     apiUrl: process.env.TOGETHER_API_URL || 'https://api.together.xyz',
