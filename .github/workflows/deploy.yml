@@ -21,12 +21,9 @@ jobs:
           chmod 600 ~/.ssh/auto_deploy_key
           ssh-keyscan -H 139.180.138.158 >> ~/.ssh/known_hosts
       
-      - name: Reload pm2
-        run: |
-          source ~/.bashrc
-
       - name: Deploy on remote VPS
         run: |
+          source ~/.bashrc
           ssh -i ~/.ssh/auto_deploy_key lucas@139.180.138.158 << 'EOF'
           cd /home/lucas/Node/AutoPic
           git pull origin main
