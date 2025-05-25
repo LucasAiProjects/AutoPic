@@ -28,6 +28,6 @@ jobs:
           git pull origin main
           npm install
           echo ">> restart service..."
-          pm2 restart autopic || pm2 start src/server.js --name autopic
+          /home/lucas/.nvm/versions/node/v22.16.0/bin/pm2 restart autopic || pm2 start src/server.js --name autopic
           echo ">> autopic deploy done!"
           EOF
