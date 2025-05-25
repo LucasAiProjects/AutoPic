@@ -17,7 +17,7 @@ jobs:
       - name: Set SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/auto_deploy_key
+          echo "${{ secrets.AUTO_DEPLOY_KEY }}" > ~/.ssh/auto_deploy_key
           chmod 600 ~/.ssh/auto_deploy_key
           ssh-keyscan -H 139.180.138.158 >> ~/.ssh/known_hosts
         
