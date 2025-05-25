@@ -26,9 +26,8 @@ jobs:
           ssh -i ~/.ssh/auto_deploy_key lucas@139.180.138.158 << 'EOF'
           cd /home/lucas/Node/AutoPic
           git pull origin main
-          source ~/.bashrc
-          npm install
+          /home/lucas/.nvm/versions/node/v20.0.0/bin/npm install
           echo ">> restart service..."
-          pm2 restart autopic || pm2 start src/server.js --name autopic
+          /home/lucas/.nvm/versions/node/v20.0.0/bin/pm2 restart autopic || /home/lucas/.nvm/versions/node/v20.0.0/bin/pm2 start src/server.js --name autopic
           echo ">> autopic deploy done!"
           EOF
