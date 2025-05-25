@@ -47,7 +47,7 @@ process.on('unhandledRejection', (error) => {
 
 // 处理进程终止
 process.on('SIGTERM', () => {
-  logger.info('SIGTERM信号接收，优雅关闭 测试自动部署');
+  logger.info('SIGTERM信号接收，优雅关闭');
   server.close(() => {
     logger.info('进程终止');
     process.exit(0);

@@ -1,0 +1,33 @@
+name: Deploy to VPS via SSH
+
+on:
+  push:
+    branches:
+      - main  # 或者用你的主分支名称，如master
+
+jobs:
+  deploy:
+    name: Deploy to VPS
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set SSH Key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/auto_deploy_key
+          chmod 600 ~/.ssh/auto_deploy_key
+          ssh-keyscan -H 139.180.138.158 >> ~/.ssh/known_hosts
+        
+      - name: Deploy on remote VPS
+        run: |
+          ssh -i ~/.ssh/auto_deploy_key lucas@139.180.138.158 << 'EOF'
+          cd /home/lucas/Node/AutoPic
+          git pull origin main
+          npm install
+          echo ">> restart service..."
+          pm2 restart autopic || pm2 start src/server.js --name autopic
+          echo ">> autopic deploy done!"
+          EOF
