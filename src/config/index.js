@@ -19,13 +19,18 @@ const config = {
   redis: {
     url: process.env.REDIS_URL,
   },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    anonKey: process.env.SUPABASE_ANON_KEY,
+    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+  },
   rateLimit: {
     window: parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10), // 默认1分钟
     max: parseInt(process.env.RATE_LIMIT_MAX || '10', 10), // 默认每窗口10次请求
     imageMax: parseInt(process.env.IMAGE_RATE_LIMIT_MAX || '5', 10), // 图像生成接口限制
   },
   cache: {
-    imageExpiry: 60 * 60 * 1, // 1小时，单位秒 
+    imageExpiry: 60 * 60 * 24, // 24小时，单位秒
   }
 };
 
