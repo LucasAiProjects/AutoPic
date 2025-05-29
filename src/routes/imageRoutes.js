@@ -6,12 +6,6 @@ import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// 添加通用调试中间件
-router.use((req, res, next) => {
-  console.log(`[ImageRoutes] 接收到请求: ${req.method} ${req.originalUrl}, 参数: ${JSON.stringify(req.params)}`);
-  next();
-});
-
 /**
  * @route POST /api/images/generate
  * @desc 创建图像生成任务
@@ -19,10 +13,6 @@ router.use((req, res, next) => {
  */
 router.post(
   '/generate',
-  (req, res, next) => {
-    console.log('[Route] POST /api/images/generate 被访问了');
-    next();
-  },
   requireAuth,
   validateMethod(['POST']),
   validateJsonBody,
@@ -38,10 +28,6 @@ router.post(
  */
 router.get(
   '/:taskId',
-  (req, res, next) => {
-    console.log(`[Route] GET /api/images/:taskId 被访问了, taskId: ${req.params.taskId}`);
-    next();
-  },
   requireAuth,
   validateMethod(['GET']),
   getImageResult

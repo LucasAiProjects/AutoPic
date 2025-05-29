@@ -8,9 +8,6 @@ const router = express.Router();
 router.get('/health', healthCheck);
 
 // API路由
-router.use('/images', (req, res, next) => {
-  console.log('[Main Route] /api/images 路由被访问了:', req.method, req.url);
-  next();
-}, imageRoutes);
+router.use('/images', imageRoutes);
 
 export default router; 
