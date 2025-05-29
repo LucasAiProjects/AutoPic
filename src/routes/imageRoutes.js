@@ -13,6 +13,10 @@ const router = express.Router();
  */
 router.post(
   '/generate',
+  (req, res, next) => {
+    console.log('[Route] POST /api/images/generate 被访问了');
+    next();
+  },
   requireAuth,
   validateMethod(['POST']),
   validateJsonBody,
@@ -28,6 +32,10 @@ router.post(
  */
 router.get(
   '/:taskId',
+  (req, res, next) => {
+    console.log('[Route] GET /api/images/:taskId 被访问了');
+    next();
+  },
   requireAuth,
   validateMethod(['GET']),
   getImageResult

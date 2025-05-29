@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { ApiError } from '../utils/errorHandler.js';
-import { verifySupabaseToken } from './supabase.js';
+import { verifySupabaseToken } from '../config/supabase.js';
 import logger from '../utils/logger.js';
 
 /**

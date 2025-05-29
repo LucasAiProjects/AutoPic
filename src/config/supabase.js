@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import config from '../config/index.js';
+import config from './index.js';
 
 // 创建 Supabase 客户端
 const supabase = createClient(
