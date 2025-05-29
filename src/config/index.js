@@ -19,6 +19,10 @@ const config = {
   redis: {
     url: process.env.REDIS_URL,
   },
+  supabase: {
+    url: process.env.SUPABASE_URL,
+    anonKey: process.env.SUPABASE_ANON_KEY,
+  },
   rateLimit: {
     window: parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10), // 默认1分钟
     max: parseInt(process.env.RATE_LIMIT_MAX || '10', 10), // 默认每窗口10次请求
