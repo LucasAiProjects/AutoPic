@@ -17,7 +17,9 @@ class RedisService {
   initialize() {
     try {
       // 连接Upstash Redis
-      this.client = new Redis(config.redis.url);
+      this.client = new Redis(config.redis.url, {
+        maxRetriesPerRequest: null,
+      });
 
       this.client.on('connect', () => {
         logger.info('Redis连接成功');

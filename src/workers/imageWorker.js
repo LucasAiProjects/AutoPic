@@ -11,7 +11,9 @@ import redisService from '../services/redisService.js';
 const IMAGE_RESULT_PREFIX = 'image_result:';
 
 // 创建Redis连接
-const connection = new Redis(config.redis.url);
+const connection = new Redis(config.redis.url, {
+  maxRetriesPerRequest: null,
+});
 
 // 创建Together.ai API客户端
 const apiClient = axios.create({
