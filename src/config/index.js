@@ -11,18 +11,13 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const config = {
   env: process.env.NODE_ENV || 'development',
-  port: process.env.PORT || 3000 || '0.0.0.0',
+  port: process.env.PORT || 3000,
   together: {
     apiKey: process.env.TOGETHER_API_KEY,
     apiUrl: process.env.TOGETHER_API_URL || 'https://api.together.xyz',
   },
   redis: {
     url: process.env.REDIS_URL,
-  },
-  supabase: {
-    url: process.env.SUPABASE_URL,
-    anonKey: process.env.SUPABASE_ANON_KEY,
-    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
   },
   rateLimit: {
     window: parseInt(process.env.RATE_LIMIT_WINDOW || '60000', 10), // 默认1分钟

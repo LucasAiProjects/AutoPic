@@ -1,17 +1,24 @@
 services:
   - type: web
-    name: together-ai-image-api
+    name: autopic
     env: node
-    region: oregon
     buildCommand: npm install
     startCommand: npm start
     envVars:
       - key: NODE_ENV
         value: production
-      - key: PORT
-        value: 8080
       - key: TOGETHER_API_KEY
         sync: false
       - key: TOGETHER_API_URL
         value: https://api.together.xyz
+      - key: REDIS_URL
+        sync: false
+      - key: REDIS_TOKEN
+        sync: false
+      - key: RATE_LIMIT_WINDOW
+        value: 60000
+      - key: RATE_LIMIT_MAX
+        value: 10
+      - key: IMAGE_RATE_LIMIT_MAX
+        value: 5
     healthCheckPath: /api/health 

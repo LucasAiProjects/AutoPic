@@ -9,14 +9,13 @@ import { ApiError } from '../utils/errorHandler.js';
 export const generateImage = async (req, res, next) => {
   try {
     const { prompt, model, width, height, steps, n } = req.body;
-    const userId = req.user.id; // 从认证中间件获取用户ID
 
     // 参数验证
     if (!prompt) {
       throw new ApiError(StatusCodes.BAD_REQUEST, '必须提供图像描述(prompt)');
     }
 
-    logger.info(`接收到图像生成请求，用户ID: ${userId}`);
+    logger.info(`接收到图像生成请求`);
     
     // 创建异步任务，检查是否已有缓存结果
     const { taskId, cached } = await imageService.createImageTask({
@@ -25,8 +24,7 @@ export const generateImage = async (req, res, next) => {
       width,
       height,
       steps,
-      n,
-      userId // 添加用户ID
+      n
     });
 
     // 返回任务ID，如果是缓存命中则提示用户
@@ -49,16 +47,15 @@ export const generateImage = async (req, res, next) => {
 export const getImageResult = async (req, res, next) => {
   try {
     const { taskId } = req.params;
-    const userId = req.user.id; // 从认证中间件获取用户ID
     
     if (!taskId) {
       throw new ApiError(StatusCodes.BAD_REQUEST, '必须提供任务ID');
     }
     
-    logger.info(`接收到图像结果查询请求，任务ID: ${taskId}, 用户ID: ${userId}`);
+    logger.info(`接收到图像结果查询请求，任务ID: ${taskId}`);
     
     // 查询任务结果
-    const result = await imageService.getImageResult(taskId, userId); // 添加用户ID参数
+    const result = await imageService.getImageResult(taskId);
     
     // 根据任务状态返回不同响应
     if (result.status === 'completed') {
