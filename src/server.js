@@ -12,11 +12,21 @@ const app = express();
 // 注册全局中间件
 registerMiddleware(app);
 
+// 添加全局请求日志
+app.use((req, res, next) => {
+  console.log(`[Server] 收到请求: ${req.method} ${req.originalUrl}`);
+  next();
+});
+
 // 注册API路由
-app.use('/api', routes);
+app.use('/api', (req, res, next) => {
+  console.log(`[Server] API路由被访问: ${req.method} ${req.url}`);
+  next();
+}, routes);
 
 // 处理404路由
 app.use((req, res) => {
+  console.log(`[Server] 404 未找到路径: ${req.originalUrl}`);
   res.status(StatusCodes.NOT_FOUND).json({
     success: false,
     error: {
