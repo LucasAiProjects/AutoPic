@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { ApiError } from '../utils/errorHandler.js';
-import supabase from '../config/supabase.js';
+import supabase, { supabaseAdmin } from '../config/supabase.js';
 import logger from '../utils/logger.js';
 
 /**
@@ -15,7 +15,9 @@ export const requireAuth = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '未提供认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -30,7 +32,9 @@ export const requireAuth = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '无效的认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -39,7 +43,9 @@ export const requireAuth = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '无效的认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -65,7 +71,9 @@ export const requireAdmin = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '未提供认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -80,7 +88,9 @@ export const requireAdmin = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '无效的认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -89,7 +99,9 @@ export const requireAdmin = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.UNAUTHORIZED,
         '无效的认证令牌',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
@@ -107,7 +119,9 @@ export const requireAdmin = async (req, res, next) => {
       throw new ApiError(
         StatusCodes.FORBIDDEN,
         '需要管理员权限',
-        { redirectTo: '/login' }
+        true,
+        '',
+        '/login'
       );
     }
 
