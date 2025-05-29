@@ -7,7 +7,7 @@ import logger from '../utils/logger.js';
  * Supabase JWT 认证中间件
  */
 export const requireAuth = async (req, res, next) => {
-  console.log('[Middleware] requireAuth 被调用了');
+  logger.warn('[Middleware] requireAuth 被调用了');
 
   try {
     const authHeader = req.headers.authorization;
