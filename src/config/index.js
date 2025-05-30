@@ -10,7 +10,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 const config = {
-  env: process.env.NODE_ENV || 'development',
+  env: process.env.NODE_ENV || 'production',
   port: process.env.PORT || 3000,
   together: {
     apiKey: process.env.TOGETHER_API_KEY,
@@ -18,6 +18,9 @@ const config = {
   },
   redis: {
     url: process.env.REDIS_URL,
+  },
+  database: {
+    url: process.env.DATABASE_URL,
   },
   supabase: {
     url: process.env.SUPABASE_URL,

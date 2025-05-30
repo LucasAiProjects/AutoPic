@@ -1,5 +1,6 @@
 import express from 'express';
 import imageRoutes from './imageRoutes.js';
+import userRoutes from './userRoutes.js';
 import { healthCheck } from '../controllers/healthController.js';
 
 const router = express.Router();
@@ -9,5 +10,6 @@ router.get('/health', healthCheck);
 
 // API路由
 router.use('/images', imageRoutes);
+router.use('/users', userRoutes);
 
 export default router; 

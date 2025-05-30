@@ -4,6 +4,7 @@ import logger from './utils/logger.js';
 import { registerMiddleware, registerErrorHandlers } from './middleware/index.js';
 import routes from './routes/index.js';
 import { StatusCodes } from 'http-status-codes';
+import { testConnection } from './config/database.js';
 import './workers/imageWorker.js'; // 初始化图像生成工作进程
 
 // 创建Express应用
@@ -29,10 +30,18 @@ app.use((req, res) => {
 registerErrorHandlers(app);
 
 // 启动服务器
-const server = app.listen(config.port, () => {
+const server = app.listen(config.port, async () => {
   logger.info(`服务启动成功，运行在端口 ${config.port}`);
   logger.info(`环境: ${config.env}`);
   logger.info(`已启动BullMQ任务队列和工作进程`);
+  
+  // 测试数据库连接
+  const dbConnected = await testConnection();
+  if (dbConnected) {
+    logger.info('数据库连接正常');
+  } else {
+    logger.warn('数据库连接失败，某些功能可能受到影响');
+  }
 });
 
 // 处理未捕获的异常和拒绝
