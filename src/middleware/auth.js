@@ -42,7 +42,7 @@ export const requireAuth = async (req, res, next) => {
       );
     }
 
-    logger.info(`Supabase JWT认证成功: 用户ID: ${user.id}, Email: ${user.email}, IP: ${req.ip}, Path: ${req.path}`);
+    logger.info(`Supabase JWT认证成功, IP: ${req.ip}, Path: ${req.path}, 用户信息: ${JSON.stringify(user, null, 2)}`);
     
     // 将用户信息添加到请求对象中
     req.user = {
