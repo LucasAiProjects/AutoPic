@@ -19,7 +19,7 @@ class User {
       return result.rows[0] || null;
     } catch (error) {
       logger.error('查找用户失败:', { userId, error: error.message });
-      throw error;
+      return null;
     }
   }
 
