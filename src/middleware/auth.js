@@ -39,7 +39,7 @@ export const requireAuth = async (req, res, next) => {
         '无效的认证令牌',
         true,
         '',
-        '/login'
+        '/user/register'
       );
     }
 
