@@ -10,6 +10,6 @@ router.get('/health', healthCheck);
 
 // API路由
 router.use('/images', imageRoutes);
-router.use('/users', userRoutes);
+router.use('/user', userRoutes);      // 单数形式：/api/user
 
 export default router; 

@@ -12,7 +12,9 @@ const IMAGE_RESULT_PREFIX = 'image_result:';
 
 // 创建Redis连接
 const connection = new Redis(config.redis.url, {
-  maxRetriesPerRequest: null,
+  maxRetriesPerRequest: null, // BullMQ要求设置为null
+  retryDelayOnFailover: 100,
+  enableReadyCheck: false,
 });
 
 // 创建Together.ai API客户端

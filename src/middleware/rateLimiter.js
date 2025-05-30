@@ -1,13 +1,22 @@
 import { RateLimiterRedis } from 'rate-limiter-flexible';
+import Redis from 'ioredis';
 import { StatusCodes } from 'http-status-codes';
 import config from '../config/index.js';
-import redisService from '../services/redisService.js';
 import logger from '../utils/logger.js';
 import { ApiError } from '../utils/errorHandler.js';
 
+// 为限流器创建专门的Redis连接，确保与BullMQ兼容
+const createRedisClient = () => {
+  return new Redis(config.redis.url, {
+    maxRetriesPerRequest: null, // BullMQ要求设置为null
+    retryDelayOnFailover: 100,
+    enableReadyCheck: false,
+  });
+};
+
 // 创建通用限流器
 const generalLimiter = new RateLimiterRedis({
-  storeClient: redisService.client,
+  storeClient: createRedisClient(),
   keyPrefix: 'ratelimit',
   points: config.rateLimit.max,  // 最大请求数
   duration: config.rateLimit.window / 1000,  // 窗口大小（秒）
@@ -15,7 +24,7 @@ const generalLimiter = new RateLimiterRedis({
 
 // 创建图像生成专用限流器（更严格限制）
 const imageLimiter = new RateLimiterRedis({
-  storeClient: redisService.client,
+  storeClient: createRedisClient(),
   keyPrefix: 'imageratelimit',
   points: config.rateLimit.imageMax,  // 更低的请求上限
   duration: config.rateLimit.window / 1000,  // 窗口大小（秒）

@@ -11,7 +11,9 @@ export const QUEUE_NAMES = {
 // 创建Redis连接
 const createRedisConnection = () => {
   const connection = new Redis(config.redis.url, {
-    maxRetriesPerRequest: null,
+    maxRetriesPerRequest: null, // BullMQ要求设置为null
+    retryDelayOnFailover: 100,
+    enableReadyCheck: false,
   });
 
   connection.on('error', (err) => {

@@ -16,9 +16,11 @@ class RedisService {
    */
   initialize() {
     try {
-      // 连接Upstash Redis
+      // 连接Upstash Redis，配置与BullMQ兼容
       this.client = new Redis(config.redis.url, {
-        maxRetriesPerRequest: null,
+        maxRetriesPerRequest: null, // BullMQ要求设置为null
+        retryDelayOnFailover: 100,
+        enableReadyCheck: false,
       });
 
       this.client.on('connect', () => {
