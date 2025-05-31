@@ -21,10 +21,4 @@ services:
         sync: false
       - key: SUPABASE_ANON_KEY
         sync: false
-      - key: RATE_LIMIT_WINDOW
-        value: 60000
-      - key: RATE_LIMIT_MAX
-        value: 10
-      - key: IMAGE_RATE_LIMIT_MAX
-        value: 5
     healthCheckPath: /api/health 

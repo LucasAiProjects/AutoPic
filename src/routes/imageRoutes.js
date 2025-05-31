@@ -1,7 +1,6 @@
 import express from 'express';
 import { generateImage, getImageResult } from '../controllers/imageController.js';
 import { validateMethod, validateJsonBody, validateRequiredFields } from '../middleware/validateRequest.js';
-import { imageRateLimiter } from '../middleware/rateLimiter.js';
 import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -17,7 +16,6 @@ router.post(
   validateMethod(['POST']),
   validateJsonBody,
   validateRequiredFields(['prompt']),
-  imageRateLimiter,
   generateImage
 );
 
