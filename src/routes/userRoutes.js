@@ -1,5 +1,6 @@
 import express from 'express';
 import { registerUser, getCurrentUser } from '../controllers/userController.js';
+import { requireAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -15,6 +16,6 @@ router.post('/register', registerUser);
  * @desc 获取当前用户信息
  * @access 需要 Supabase JWT token
  */
-router.get('/me', getCurrentUser);
+router.get('/me', requireAuthgetCurrentUser);
 
 export default router; 

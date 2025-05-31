@@ -76,43 +76,12 @@ export const registerUser = async (req, res, next) => {
  * 获取当前用户信息
  */
 export const getCurrentUser = async (req, res, next) => {
-  try {
-    const authHeader = req.headers.authorization;
-
-    // 验证 Supabase JWT token
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      throw new ApiError(StatusCodes.UNAUTHORIZED, '未提供认证令牌');
-    }
-
-    const token = authHeader.split(' ')[1];
-    const supabaseUser = await verifySupabaseToken(token);
-    
-    if (!supabaseUser) {
-      throw new ApiError(StatusCodes.UNAUTHORIZED, '无效的认证令牌');
-    }
-
-    // 查找数据库中的用户信息
-    const dbUser = await User.findByUserId(supabaseUser.id);
-
     return res.status(StatusCodes.OK).json({
       success: true,
       data: {
-        supabase: {
-          id: supabaseUser.id,
-          email: supabaseUser.email,
-          email_confirmed_at: supabaseUser.email_confirmed_at,
-          last_sign_in_at: supabaseUser.last_sign_in_at
-        },
-        database: dbUser ? {
-          user_id: dbUser.user_id,
-          username: dbUser.username,
-          email: dbUser.email,
-          priority: dbUser.priority
-        } : null,
-        registered: !!dbUser
+        user_id: req.dbUser.user_id,
+        username: req.dbUser.username,
+        priority: req.dbUser.priority
       }
     });
-  } catch (error) {
-    next(error);
-  }
 }; 
