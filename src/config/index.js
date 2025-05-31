@@ -12,6 +12,10 @@ dotenv.config({ path: path.join(__dirname, '../../.env') });
 const config = {
   env: process.env.NODE_ENV || 'production',
   port: process.env.PORT || 3000,
+  // 反向代理配置
+  proxy: {
+    trust: process.env.TRUST_PROXY || (process.env.NODE_ENV === 'production' ? '1' : 'true'),
+  },
   together: {
     apiKey: process.env.TOGETHER_API_KEY,
     apiUrl: process.env.TOGETHER_API_URL || 'https://api.together.xyz',

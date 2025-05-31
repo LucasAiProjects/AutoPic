@@ -2,6 +2,7 @@ import rateLimit from 'express-rate-limit';
 import { StatusCodes } from 'http-status-codes';
 import config from '../config/index.js';
 import logger from '../utils/logger.js';
+import { getClientIp, getIpLocation } from '../utils/getClientIp.js';
 
 /**
  * 基于IP的通用限流中间件（用于全局和公开接口）
@@ -19,7 +20,9 @@ export const ipBasedRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logger.warn(`IP限流触发: ${req.ip} - ${req.method} ${req.originalUrl}`);
+    const clientIp = getClientIp(req);
+    const location = getIpLocation(clientIp);
+    logger.warn(`IP限流触发: ${clientIp} (${location}) - ${req.method} ${req.originalUrl}`);
     res.status(StatusCodes.TOO_MANY_REQUESTS).json({
       success: false,
       error: {
@@ -29,7 +32,7 @@ export const ipBasedRateLimiter = rateLimit({
     });
   },
   keyGenerator: (req) => {
-    return req.ip || 'unknown';
+    return getClientIp(req);
   }
 });
 
@@ -49,7 +52,11 @@ export const userBasedRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logger.warn(`用户限流触发: ${req.user?.id || req.ip} - ${req.method} ${req.originalUrl}`);
+    const userId = req.user?.id;
+    const clientIp = getClientIp(req);
+    const identifier = userId || clientIp;
+    const type = userId ? '用户' : 'IP';
+    logger.warn(`${type}限流触发: ${identifier} - ${req.method} ${req.originalUrl}`);
     res.status(StatusCodes.TOO_MANY_REQUESTS).json({
       success: false,
       error: {
@@ -60,7 +67,7 @@ export const userBasedRateLimiter = rateLimit({
   },
   keyGenerator: (req) => {
     // 优先使用用户ID，后备使用IP
-    return req.user?.id || req.ip || 'unknown';
+    return req.user?.id || getClientIp(req);
   }
 });
 
@@ -80,7 +87,11 @@ export const imageRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logger.warn(`图像生成限流触发: ${req.user?.id || req.ip} - ${req.method} ${req.originalUrl}`);
+    const userId = req.user?.id;
+    const clientIp = getClientIp(req);
+    const identifier = userId || clientIp;
+    const type = userId ? '用户' : 'IP';
+    logger.warn(`图像生成${type}限流触发: ${identifier} - ${req.method} ${req.originalUrl}`);
     res.status(StatusCodes.TOO_MANY_REQUESTS).json({
       success: false,
       error: {
@@ -91,7 +102,7 @@ export const imageRateLimiter = rateLimit({
   },
   keyGenerator: (req) => {
     // 基于用户ID进行限流
-    return req.user?.id || req.ip || 'unknown';
+    return req.user?.id || getClientIp(req);
   }
 });
 
@@ -111,7 +122,9 @@ export const userRegistrationRateLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: (req, res) => {
-    logger.warn(`注册限流触发: ${req.ip} - ${req.method} ${req.originalUrl}`);
+    const clientIp = getClientIp(req);
+    const location = getIpLocation(clientIp);
+    logger.warn(`注册限流触发: ${clientIp} (${location}) - ${req.method} ${req.originalUrl}`);
     res.status(StatusCodes.TOO_MANY_REQUESTS).json({
       success: false,
       error: {
@@ -121,7 +134,7 @@ export const userRegistrationRateLimiter = rateLimit({
     });
   },
   keyGenerator: (req) => {
-    return req.ip || 'unknown';
+    return getClientIp(req);
   }
 });
 
