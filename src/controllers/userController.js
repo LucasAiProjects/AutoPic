@@ -76,6 +76,8 @@ export const registerUser = async (req, res, next) => {
  * 获取当前用户信息
  */
 export const getCurrentUser = async (req, res, next) => {
+    logger.info(`获取当前用户信息: ${JSON.stringify(req, null, 2)}`);
+    
     return res.status(StatusCodes.OK).json({
       success: true,
       data: {
