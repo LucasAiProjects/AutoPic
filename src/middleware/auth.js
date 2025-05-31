@@ -43,7 +43,7 @@ export const requireAuth = async (req, res, next) => {
       );
     }
 
-    logger.info(`Supabase JWT认证成功: 用户ID: ${user.id}, Email: ${user.email}, IP: ${req.ip}, Path: ${req.path}`);
+    logger.info(`Supabase JWT认证成功: 用户ID: ${supabaseUser.id}, Email: ${supabaseUser.email}, IP: ${req.ip}, Path: ${req.path}`);
     
     // 检查用户是否存在于数据库中
     let dbUser;
