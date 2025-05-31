@@ -16,6 +16,6 @@ router.post('/register', registerUser);
  * @desc 获取当前用户信息
  * @access 需要 Supabase JWT token
  */
-router.get('/me', requireAuthgetCurrentUser);
+router.get('/me', requireAuth, getCurrentUser);
 
 export default router; 
