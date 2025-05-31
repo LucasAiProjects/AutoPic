@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { errorConverter, errorHandler } from '../utils/errorHandler.js';
+import { generalRateLimiter } from './rateLimiter.js';
 import logger from '../utils/logger.js';
 
 /**
@@ -17,6 +18,9 @@ export const registerMiddleware = (app) => {
   // 安全相关中间件
   app.use(helmet());
   app.use(cors());
+
+  // 全局限流中间件
+  app.use(generalRateLimiter);
 
   // 请求日志
   morgan.token('body', (req) => {
