@@ -76,14 +76,14 @@ export const registerUser = async (req, res, next) => {
  * 获取当前用户信息
  */
 export const getCurrentUser = async (req, res, next) => {
-    logger.info(`获取当前用户信息: ${JSON.stringify(req.user, null, 2)}`);
+    const user = req.user;
     
     return res.status(StatusCodes.OK).json({
       success: true,
       data: {
-        user_id: req.dbUser.user_id,
-        username: req.dbUser.username,
-        priority: req.dbUser.priority
+        user_id: user.dbUser.user_id,
+        username: user.dbUser.username,
+        priority: user.dbUser.priority
       }
     });
 }; 
