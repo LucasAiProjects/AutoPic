@@ -21,7 +21,7 @@ app.use((req, res) => {
   res.status(StatusCodes.NOT_FOUND).json({
     success: false,
     error: {
-      message: `找不到路径: ${req.originalUrl}`
+      message: `找不到路径 : ${req.originalUrl}`
     }
   });
 });
@@ -33,7 +33,7 @@ registerErrorHandlers(app);
 const server = app.listen(config.port, async () => {
   logger.info(`服务启动成功，运行在端口 ${config.port}`);
   logger.info(`环境: ${config.env}`);
-  logger.info(`已启动BullMQ任务队列和工作进程`);
+  logger.info(`已启动BullMQ任务队列和工作进程 `);
   
   // 测试数据库连接
   const dbConnected = await testConnection();
